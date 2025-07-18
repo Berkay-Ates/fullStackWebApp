@@ -1,0 +1,27 @@
+<div class="login-container">
+  <h2>Login</h2>
+  <form (ngSubmit)="login()">
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" [(ngModel)]="email" required />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" [(ngModel)]="password" required />
+    </div>
+
+    <div class="user-type">
+      <label>
+          <input type="radio" name="userType" [(ngModel)]="userType" value="CUSTOMER" />
+          Customer
+      </label>
+      <label>
+          <input type="radio" name="userType" [(ngModel)]="userType" value="SELLER" />
+          Seller
+      </label>
+    </div>
+
+    <button type="submit">Login</button>
+  </form>
+</div>

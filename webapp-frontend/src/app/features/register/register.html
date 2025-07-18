@@ -1,0 +1,48 @@
+<div class="register-container">
+  <h2>Register</h2>
+  <form (ngSubmit)="register()">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input id="name" name="name" type="text" [(ngModel)]="name" required />
+    </div>
+
+    @if (userType() === UserType.CUSTOMER) {
+      <div class="form-group" >
+        <label for="surname">Surname</label>
+        <input id="surname" name="surname" type="text" [(ngModel)]="surname" required />
+      </div>
+    }
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" [(ngModel)]="email" required />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" [(ngModel)]="password" required />
+    </div>
+
+    <div class="user-type">
+      <label>
+        <input
+          type="radio"
+          name="userType"
+          [checked]="userType() === UserType.CUSTOMER"
+          (change)="onUserTypeChange(UserType.CUSTOMER)" />
+        Customer
+      </label>
+
+      <label>
+        <input
+          type="radio"
+          name="userType"
+          [checked]="userType() === UserType.SELLER"
+          (change)="onUserTypeChange(UserType.SELLER)" />
+        Seller
+      </label>
+    </div>
+
+    <button type="submit">Register</button>
+  </form>
+</div>

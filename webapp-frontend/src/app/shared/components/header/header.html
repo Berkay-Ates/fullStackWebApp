@@ -1,0 +1,14 @@
+<header  class="header">
+    <nav>
+        <span routerLink="/">{{title()}}</span>
+        <ul>
+            @if (!isAuthenticatedRoute()) {
+            <li routerLink="/login">Login</li>
+            <li routerLink="/register">Register</li>
+            }
+            @if (isAuthenticatedRoute()) {
+                <li (click)="signOut()" routerLink="/">SignOut</li>  
+            }
+        </ul>
+    </nav>
+</header>
