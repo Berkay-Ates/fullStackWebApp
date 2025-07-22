@@ -39,7 +39,6 @@ public class CategoryService {
                     .map(p -> {
                         CategoryDTO dto = new CategoryDTO();
                         dto.setProductCategory(p.getProductCategory());
-                        dto.setCreatedAt(p.getCreatedAt());
                         return dto;
                     })
                     .collect(Collectors.toList());
@@ -50,7 +49,6 @@ public class CategoryService {
                    .orElseThrow(() -> new EntityNotFoundException("Category not found"));
 
         CategoryDTO categoryDto = new CategoryDTO();
-        categoryDto.setCreatedAt(category.getCreatedAt());
         categoryDto.setProductCategory(category.getProductCategory());
         
         return categoryDto;
