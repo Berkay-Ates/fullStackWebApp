@@ -26,14 +26,13 @@ public class OrderController {
         this.orderService = orderService;
    }
 
-    @PostMapping
+    @PostMapping("/createOrder")
     public ResponseEntity<OrderGetDTO> createOrder(@Valid @RequestBody OrderPostDTO orderPostDTO) {
         OrderGetDTO createdOrder = orderService.createOrder(orderPostDTO);
         return ResponseEntity.ok(createdOrder);
     }
 
-
-    @GetMapping
+    @GetMapping("getOrders")
     public ResponseEntity<List<OrderGetDTO>> getAllOrders() {
         List<OrderGetDTO> orders = orderService.getAllOrders();
         return ResponseEntity.ok(orders);
