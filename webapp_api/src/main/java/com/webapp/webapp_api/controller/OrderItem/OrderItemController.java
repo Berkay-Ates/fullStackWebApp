@@ -24,7 +24,7 @@ public class OrderItemController {
     }
 
 
-    @GetMapping
+    @GetMapping("/allOrderItems")
     public ResponseEntity<List<OrderItemGetDTO>> getAllOrderItems() {
         List<OrderItemGetDTO> items = orderItemService.getAllOrderItems();
         return ResponseEntity.ok(items);
