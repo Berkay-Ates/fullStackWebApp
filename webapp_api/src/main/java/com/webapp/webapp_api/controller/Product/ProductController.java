@@ -27,37 +27,37 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @PostMapping("/createProduct")
+    @PostMapping("/create")
     public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productDTO) {
         ProductDTO product = productService.create(productDTO);
         return ResponseEntity.ok(product);
     }
 
-    @PutMapping("/updateProduct/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
         ProductDTO updatedProduct = productService.update(id, productDTO ) ;
         return ResponseEntity.ok(updatedProduct);
     }
 
-    @PatchMapping("/updateProduct/{id}")
+    @PatchMapping("/patch/{id}")
     public ResponseEntity<ProductDTO> patchUpdateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
         ProductDTO updatedProduct = productService.update(id, productDTO);
         return ResponseEntity.ok(updatedProduct);
     }
     
-    @DeleteMapping("/deleteProduct/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         productService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/getProducts")
+    @GetMapping("/getAll")
     public List<ProductDTO> getAllProducts(@RequestBody long id){
         List<ProductDTO> products = productService.getAll();
         return products;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/getOne/{id}")
     public ResponseEntity<ProductDTO> getProductById(@PathVariable Long id) {
         ProductDTO productDto = productService.getById(id);
         return ResponseEntity.ok(productDto);
