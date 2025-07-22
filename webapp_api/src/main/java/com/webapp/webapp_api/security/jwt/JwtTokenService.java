@@ -1,7 +1,7 @@
 package com.webapp.webapp_api.security.jwt;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
 
@@ -11,8 +11,10 @@ import java.util.Date;
 @Service
 public class JwtTokenService {
 
-    private static final long EXPIRATION_TIME = 1000 * 60 * 15*5*24*30; // (30 days)
-    private static final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 24 * 7; 
+    
+    private static final Dotenv dotenv = Dotenv.configure().directory("webapp_api/src/main/resources").load();
+    private static final Key SECRET_KEY = Keys.hmacShaKeyFor(dotenv.get("JWT_SECRET").getBytes());
 
     public String generateToken(String email) {
         return Jwts.builder()
