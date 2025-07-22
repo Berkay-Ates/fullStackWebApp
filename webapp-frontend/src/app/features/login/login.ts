@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Auth } from '../../core/services/auth';
+import { Auth } from '../../core/services/auth/auth';
 import { FormsModule } from '@angular/forms';
 import { UserType } from '../../static/enums/user_types';
 import { LoginEntityRequest } from '../../core/models/Auth/requestModels/requestLoginObject';
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  imports: [ FormsModule ],
+  imports: [FormsModule],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
@@ -21,7 +21,7 @@ export class Login {
   password: string = '';
   userType: UserType = UserType.CUSTOMER;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   storageService: LocalStorageService<UserData> = new LocalStorageService();
 
@@ -34,36 +34,36 @@ export class Login {
     }
 
     const userData: UserData = {
-        accessToken: '',
-        userType: this.userType,
-        email: this.email,
-      }
+      accessToken: '',
+      userType: this.userType,
+      email: this.email,
+    }
 
 
-    let loginObject: LoginEntityRequest = {email:this.email, password: this.password}
+    let loginObject: LoginEntityRequest = { email: this.email, password: this.password }
     try {
 
-      if(this.userType===UserType.CUSTOMER){
+      if (this.userType === UserType.CUSTOMER) {
         console.log("Customer Login")
         console.log(loginObject);
-        
+
         const res = await this.authService.loginCustomer(loginObject);
         userData.accessToken = res.token;
         userData.userType = UserType.CUSTOMER
 
         localStorage.setItem(LOCAL_STORAGE_KEYS.user, JSON.stringify(userData));
-        console.log("From LocalStorage",this.storageService.get(LOCAL_STORAGE_KEYS.user))
-        this.router.navigate(['/customerDashboard'], { state: { 'emailCheck': false }});      
+        console.log("From LocalStorage", this.storageService.get(LOCAL_STORAGE_KEYS.user))
+        this.router.navigate(['/customerDashboard'], { state: { 'emailCheck': false } });
 
-      }else if(this.userType === UserType.SELLER){
+      } else if (this.userType === UserType.SELLER) {
         console.log("Seller Login")
         const res = await this.authService.loginSeller(loginObject);
         userData.accessToken = res.token;
         userData.userType = UserType.SELLER
 
         localStorage.setItem(LOCAL_STORAGE_KEYS.user, JSON.stringify(userData));
-        console.log("From LocalStorage",this.storageService.get(LOCAL_STORAGE_KEYS.user))
-        this.router.navigate(['/sellerDashboard'], { state: { 'emailCheck': false }});      
+        console.log("From LocalStorage", this.storageService.get(LOCAL_STORAGE_KEYS.user))
+        this.router.navigate(['/sellerDashboard'], { state: { 'emailCheck': false } });
       }
 
     } catch (err: any) {
