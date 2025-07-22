@@ -3,9 +3,9 @@ export interface Product {
     createdAt?: Date;
     description: string;
     name: string;
-    photo_url:string;
+    photo_url: string;
     price: string;
     stock_quantity: string;
-    created_at : Date;
+    created_at: Date;
     sellerId: bigint;
 } 
