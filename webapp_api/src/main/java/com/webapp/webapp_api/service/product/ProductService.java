@@ -35,7 +35,7 @@ public class ProductService {
 
         product.setName(productDTO.getName());
         product.setDescription(productDTO.getDescription());
-        product.setStockQuantity(0L);
+        product.setStockQuantity(productDTO.getStockQuantity());
         product.setPhotoUrl(productDTO.getPhotoUrl());
         product.setSeller(null);
         product.setUpdatedAt(productDTO.getUpdatedAt());
@@ -46,6 +46,7 @@ public class ProductService {
         Category category = categoryRepository.getReferenceById(productDTO.getCategoryId());
         product.setCategory(category);
 
+        product.setPrice(productDTO.getPrice());
         productRepository.save(product);
         return productDTO; 
     }
@@ -56,8 +57,16 @@ public class ProductService {
         return products.stream()
                     .map(p -> {
                         ProductDTO dto = new ProductDTO();
+                        dto.setCategoryId(p.getCategory().getId());
+                        dto.setDescription(p.getDescription());
+                        dto.setId(p.getId());
                         dto.setName(p.getName());
+                        dto.setPhotoUrl(p.getPhotoUrl());
                         dto.setPrice(p.getPrice());
+                        dto.setSellerId(p.getSeller().getId());
+                        dto.setStockQuantity(p.getStockQuantity());
+                        dto.setUpdatedAt(p.getUpdatedAt());
+                        
                         return dto;
                     })
                     .collect(Collectors.toList());
