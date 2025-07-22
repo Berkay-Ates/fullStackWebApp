@@ -95,7 +95,7 @@ public class OrderService {
             orderItemGetDTO.setUpDateTime(orderItemGetDTO.getUpDateTime());
             orderGetDTO.getOrderItems().add(orderItemGetDTO);
         }
-
+        
         return orderGetDTO;
     }
     
