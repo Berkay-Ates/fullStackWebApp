@@ -24,25 +24,25 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-    @PostMapping("/createCategory")
+    @PostMapping("/create")
     public ResponseEntity<CategoryDTO> createCategory(@RequestBody CategoryDTO categoryDTO) {
         CategoryDTO category = categoryService.create(categoryDTO);
         return ResponseEntity.ok(category);
     }
 
-    @DeleteMapping("/deleteCategory/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
         categoryService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/getCategories")
+    @GetMapping("/getAll")
     public List<CategoryDTO> getAllProducts(){
         List<CategoryDTO> categories = categoryService.getAll();
         return categories;
     }
 
-    @GetMapping("/getCategory/{id}")
+    @GetMapping("/getOne/{id}")
     public ResponseEntity<CategoryDTO> getProductById(@PathVariable Long id) {
         CategoryDTO categoryDTO = categoryService.getById(id);
         return ResponseEntity.ok(categoryDTO);
