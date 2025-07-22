@@ -39,8 +39,7 @@ public class ProductDTO {
     @NotNull(message = "Stock quantity cannot be null.")
     private Long stockQuantity;
 
-    @UpdateTimestamp
-    @Column(nullable = false)
+    
     private LocalDateTime updatedAt;
 }
 
