@@ -24,13 +24,13 @@ public class OrderItemController {
     }
 
 
-    @GetMapping("/allOrderItems")
+    @GetMapping("/getAll")
     public ResponseEntity<List<OrderItemGetDTO>> getAllOrderItems() {
         List<OrderItemGetDTO> items = orderItemService.getAllOrderItems();
         return ResponseEntity.ok(items);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/getOne/{id}")
     public ResponseEntity<OrderItemGetDTO> getOrderItemById(@PathVariable Long id) {
         OrderItemGetDTO item = orderItemService.getOrderItemById(id);
         return ResponseEntity.ok(item);
