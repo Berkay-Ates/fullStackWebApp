@@ -52,7 +52,7 @@ public class ProductController {
     }
 
     @GetMapping("/getAll")
-    public List<ProductDTO> getAllProducts(@RequestBody long id){
+    public List<ProductDTO> getAllProducts(){
         List<ProductDTO> products = productService.getAll();
         return products;
     }
