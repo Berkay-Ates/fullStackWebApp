@@ -17,7 +17,6 @@ import com.webapp.webapp_api.repository.product.ProductRepository;
 import com.webapp.webapp_api.repository.seller.SellerRepository;
 import com.webapp.webapp_api.utils.OrderStatus;
 
-
 @Service
 public class OrderItemService {
 
@@ -87,7 +86,7 @@ public class OrderItemService {
             orderItemGetDTO.setStatus(orderItem.getStatus());
             orderItemGetDTO.setUnitPrice(orderItem.getUnitPrice());
             orderItemGetDTO.setUpDateTime(orderItem.getUpdatedAt());
-            
+                
             orderItemGetDTOs.add(orderItemGetDTO);
         }
 
