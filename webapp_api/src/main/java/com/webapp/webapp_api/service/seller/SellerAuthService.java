@@ -30,7 +30,7 @@ public class SellerAuthService {
         if (sellerRepository.existsByEmail(dto.getEmail())) {
             throw new RuntimeException("Email is already registered");
         }
-
+        
         Seller seller = new Seller();
         seller.setName(dto.getName());
         seller.setEmail(dto.getEmail());
