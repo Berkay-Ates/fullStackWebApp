@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import com.webapp.webapp_api.utils.OrderStatus;
+import com.webapp.webapp_api.utils.ProductCategory;
 
 import lombok.Data;
 import lombok.Getter;
@@ -19,6 +20,7 @@ public class OrderItemGetDTO {
     private Long sellerId;
     private OrderStatus status;
     private Long quantity;
+    private ProductCategory category;
     private BigDecimal unitPrice;
     private LocalDateTime orderDate;
     private LocalDateTime upDateTime;
