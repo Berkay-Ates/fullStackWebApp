@@ -48,7 +48,10 @@ public class SellerAuthController {
         }
 
         String token = jwtService.generateToken(seller.getEmail());
-        return ResponseEntity.ok(Map.of("token", token));
+        return ResponseEntity.ok(Map.ofEntries(
+            Map.entry("token", token),
+            Map.entry("userId", String.valueOf(seller.getId()))
+        ));
     }
 
     @GetMapping("/verify")
