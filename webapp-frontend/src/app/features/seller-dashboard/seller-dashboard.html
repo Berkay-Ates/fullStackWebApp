@@ -1,1 +1,23 @@
-<p>seller-dashboard works!</p>
+<div class="header-row">
+  <h2>Product list</h2>
+  <button class="add-button" (click)="goToAddProduct()">➕ Add Product</button>
+</div>
+
+@if (products.length === 0) {
+  <p>No product was found.</p>
+} @else {
+  <div class="product-grid">
+    @for (product of products; track product.id) {
+      <div class="product-card">
+        <img [src]="product.photoUrl" [alt]="product.name" />
+        <h3>{{ product.name }}</h3>
+        <p class="desc">{{ product.description }}</p>
+        <p><strong>Price:</strong> {{ product.price }} TL</p>
+        <p><strong>Stock:</strong> {{ product.stockQuantity }}</p>
+        <p>{{ product.category }}</p>
+        <p class="date">📅 {{ product.updatedAt | date: 'medium' }}</p>
+        <button class="delete-button" (click)="deleteProduct(product.id)">Delete</button>
+      </div>
+    }
+  </div>
+}
