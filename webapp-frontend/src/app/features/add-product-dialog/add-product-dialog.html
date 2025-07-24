@@ -1,0 +1,46 @@
+<div>
+<h2 class="dialog-title">Add Product</h2>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit($event)">
+
+  <label for="name">Product name</label>
+  <input id="name" type="text" formControlName="name" required />
+  <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched" style="color:red;">
+    Product name is compulsory.
+  </div>
+
+  <label for="description">Explanation</label>
+  <textarea id="description" formControlName="description"></textarea>
+
+  <label for="photoUrl">Photo url</label>
+  <input id="photoUrl" type="text" formControlName="photoUrl" />
+
+  <label for="price">Price</label>
+  <input id="price" type="number" formControlName="price" min="0" required />
+  <div *ngIf="form.get('price')?.invalid && form.get('price')?.touched" style="color:red;">
+    The price must be 0 or larger.
+  </div>
+
+    <label for="category">Category</label>
+    <select id="category" formControlName="category">
+    <option value="">-- Choose the Category --</option>
+    <option *ngFor="let category of categories; index as i" [value]="i + 1">
+        {{ category.value }}
+    </option>
+    </select>
+    <div *ngIf="form.get('category')?.invalid && form.get('category')?.touched" style="color:red;">
+   Please select a category.
+    </div>
+
+  <label for="stockQuantity">Stock Quantity</label>
+  <input id="stockQuantity" type="number" formControlName="stockQuantity" min="0" required />
+  <div *ngIf="form.get('stockQuantity')?.invalid && form.get('stockQuantity')?.touched" style="color:red;">
+    The number of stocks must be 0 or larger.
+  </div>
+
+  <button type="submit">Save</button>
+
+</form>
+<button (click)="close()">Back</button>
+
+</div>

@@ -1,0 +1,102 @@
+form {
+  max-width: 450px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #f9fafb;
+  border-radius: 8px;
+  box-shadow: 0 3px 8px rgb(0 0 0 / 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #222;
+  font-size: 0.9rem;
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+  width: 100%;
+  padding: 8px 12px;
+  margin-bottom: 14px;
+  border: 1.5px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease-in-out;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus {
+  outline: none;
+  border-color: #3f51b5;
+  box-shadow: 0 0 6px #3f51b5aa;
+}
+
+button[type="submit"],
+button {
+  background-color: #3f51b5;
+  color: white;
+  font-weight: 600;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 1.1rem;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+button[type="submit"]:hover:not(:disabled),
+button:hover {
+  background-color: #303f9f;
+}
+
+button[type="submit"]:disabled {
+  background-color: #9fa8da;
+  cursor: not-allowed;
+}
+
+div[style*="color:red"] {
+  font-size: 0.8rem;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+
+
+.dialog-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #3f51b5; /* Angular Material Indigo */
+  margin-bottom: 20px;
+  text-align: center;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  user-select: none;
+}
+
+select {
+  width: 100%;
+  padding: 8px 12px;
+  margin-bottom: 14px;
+  border: 1.5px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease-in-out;
+  box-sizing: border-box;
+  background-color: white;
+}
+
+select:focus {
+  outline: none;
+  border-color: #3f51b5;
+  box-shadow: 0 0 6px #3f51b5aa;
+}
+
