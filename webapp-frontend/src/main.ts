@@ -1,11 +1,6 @@
-import { ApplicationConfig } from '@angular/core';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { jwtInterceptor } from './app/interceptors/jwt.interceptor';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { appConfig } from './app/app.config';
+import { App } from './app/app';
 
-export const appConfig: ApplicationConfig = {
-  providers: [
-    provideHttpClient(
-      withInterceptors([jwtInterceptor])
-    )
-  ]
-};
+bootstrapApplication(App, appConfig)
+  .catch((err) => console.error(err));
