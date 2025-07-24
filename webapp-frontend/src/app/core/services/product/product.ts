@@ -42,9 +42,9 @@ export class ProductService {
     return await firstValueFrom(response$);
   }
 
-  async deleteProduct(id: number): Promise<Product> {
+  async deleteProduct(id: bigint): Promise<Product> {
     const url = `${EndpointConstant.PRODUCT.DELETE_PRODUCT}/${id}`;
-    const response$ = this.http.post<Product>(url, {});
+    const response$ = this.http.delete<Product>(url, {});
     return await firstValueFrom(response$);
   }
 }
