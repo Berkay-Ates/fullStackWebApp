@@ -6,10 +6,8 @@ import java.util.List;import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.webapp.webapp_api.dto.product.ProductDTO;
-import com.webapp.webapp_api.model.Category;
 import com.webapp.webapp_api.model.Product;
 import com.webapp.webapp_api.model.Seller;
-import com.webapp.webapp_api.repository.category.CategoryRepository;
 import com.webapp.webapp_api.repository.product.ProductRepository;
 import com.webapp.webapp_api.repository.seller.SellerRepository;
 
@@ -21,12 +19,10 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final SellerRepository sellerRepository;
-    private final CategoryRepository categoryRepository;
 
-    public ProductService(ProductRepository productRepository,SellerRepository sellerRepository, CategoryRepository categoryRepository){
+    public ProductService(ProductRepository productRepository,SellerRepository sellerRepository){
         this.productRepository = productRepository;
         this.sellerRepository = sellerRepository;
-        this.categoryRepository = categoryRepository;
     }
 
     @Transactional
@@ -43,8 +39,7 @@ public class ProductService {
         Seller seller = sellerRepository.getReferenceById(productDTO.getSellerId());
         product.setSeller(seller);
 
-        Category category = categoryRepository.getReferenceById(productDTO.getCategoryId());
-        product.setCategory(category);
+        product.setCategory(productDTO.getCategory());
 
         product.setPrice(productDTO.getPrice());
         productRepository.save(product);
@@ -57,7 +52,7 @@ public class ProductService {
         return products.stream()
                     .map(p -> {
                         ProductDTO dto = new ProductDTO();
-                        dto.setCategoryId(p.getCategory().getId());
+                        dto.setCategory(p.getCategory());
                         dto.setDescription(p.getDescription());
                         dto.setId(p.getId());
                         dto.setName(p.getName());
@@ -78,7 +73,7 @@ public class ProductService {
                    .orElseThrow(() -> new EntityNotFoundException("Product not found"));
 
         ProductDTO productDTO = new ProductDTO();
-        productDTO.setCategoryId(product.getCategory().getId());
+        productDTO.setCategory(product.getCategory());
         productDTO.setDescription(product.getDescription());
         productDTO.setName(product.getName());
         productDTO.setPhotoUrl(product.getPhotoUrl());
@@ -86,6 +81,7 @@ public class ProductService {
         productDTO.setSellerId(product.getSeller().getId());
         productDTO.setStockQuantity(product.getStockQuantity());
         productDTO.setUpdatedAt(product.getUpdatedAt());
+        productDTO.setCategory(product.getCategory());
 
 
         return productDTO;
@@ -96,10 +92,8 @@ public class ProductService {
         Product existingProduct = productRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Product not found"));
 
-        Category category = categoryRepository.getReferenceById(productDTO.getCategoryId());
-        existingProduct.setCategory(category);
+        existingProduct.setCategory(productDTO.getCategory());
 
-                
         Seller seller = sellerRepository.getReferenceById(productDTO.getSellerId());
         existingProduct.setSeller(seller);
 
