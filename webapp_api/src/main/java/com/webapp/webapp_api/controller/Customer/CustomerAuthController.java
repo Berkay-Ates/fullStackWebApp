@@ -39,7 +39,10 @@ public class CustomerAuthController {
         if (!customer.isVerified()) return ResponseEntity.status(403).body(Map.of("error", "The account is unverified"));
 
         String token = jwtService.generateToken(customer.getEmail());
-        return ResponseEntity.ok(Map.of("token", token));
+        return ResponseEntity.ok(Map.ofEntries(
+            Map.entry("token", token),
+            Map.entry("userId", String.valueOf(customer.getId()))
+        ));
     }
 
     @GetMapping("/verify")
