@@ -50,6 +50,7 @@ public class OrderItemService {
             orderItem.setUnitPrice(orderItemPostDTO.getUnitPrice());      
             orderItem.setSeller(seller);    
             orderItem.setStatus(OrderStatus.ORDERED);
+            orderItem.setCategory(orderItemPostDTO.getCategory());
             
             orderItem = orderItemRepository.save(orderItem);
 
@@ -86,6 +87,7 @@ public class OrderItemService {
             orderItemGetDTO.setStatus(orderItem.getStatus());
             orderItemGetDTO.setUnitPrice(orderItem.getUnitPrice());
             orderItemGetDTO.setUpDateTime(orderItem.getUpdatedAt());
+            orderItemGetDTO.setCategory(orderItem.getCategory());
                 
             orderItemGetDTOs.add(orderItemGetDTO);
         }
@@ -108,6 +110,7 @@ public class OrderItemService {
         orderItemGetDTO.setStatus(orderItem.getStatus());
         orderItemGetDTO.setUnitPrice(orderItem.getUnitPrice());
         orderItemGetDTO.setUpDateTime(orderItem.getUpdatedAt());
+        orderItemGetDTO.setCategory(orderItem.getCategory());
 
         return orderItemGetDTO;  
     }
