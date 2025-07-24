@@ -3,6 +3,7 @@ package com.webapp.webapp_api.dto.product;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.webapp.webapp_api.utils.ProductCategory;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -31,8 +32,8 @@ public class ProductDTO {
     @NotNull(message = "Seller ID cannot be null.")
     private Long sellerId;
 
-    @NotNull(message = "Category ID cannot be null.")
-    private Long categoryId;
+    @NotNull(message = "Category cannot be null.")
+    private ProductCategory category;
 
     @NotNull(message = "Stock quantity cannot be null.")
     private Long stockQuantity;
