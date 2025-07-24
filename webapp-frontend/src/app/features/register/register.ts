@@ -1,5 +1,5 @@
 import { Component, inject, Signal, signal } from '@angular/core';
-import { Auth } from '../../core/services/auth';
+import { Auth } from '../../core/services/auth/auth';
 import { FormsModule } from '@angular/forms';
 import { UserType } from '../../static/enums/user_types';
 import { RegisterCustomerRequest } from '../../core/models/Auth/requestModels/customerRegisterModel';
@@ -17,16 +17,16 @@ import { Router } from '@angular/router';
   styleUrl: './register.scss'
 })
 export class Register {
-    authService = inject(Auth)
-    email: string = '';
-    password: string = '';
-    name: string = '';
-    surname: string = '';
+  authService = inject(Auth)
+  email: string = '';
+  password: string = '';
+  name: string = '';
+  surname: string = '';
 
-    UserType = UserType;
+  UserType = UserType;
 
-  constructor(private router: Router) {}
-  
+  constructor(private router: Router) { }
+
   userType = signal(UserType.CUSTOMER);
   storageService: LocalStorageService<UserData> = new LocalStorageService();
 
@@ -41,29 +41,30 @@ export class Register {
     }
 
     const userData: UserData = {
+      userId: 0,
       accessToken: '',
       userType: this.userType(),
       email: this.email,
     }
 
     try {
-      if(this.userType() === UserType.CUSTOMER){
-        const registerObject: RegisterCustomerRequest = {surname: this.surname, email: this.email, password: this.password, name: this.name}; 
+      if (this.userType() === UserType.CUSTOMER) {
+        const registerObject: RegisterCustomerRequest = { surname: this.surname, email: this.email, password: this.password, name: this.name };
         const res = await this.authService.registerCustomer(registerObject);
-      
-        localStorage.setItem(LOCAL_STORAGE_KEYS.user, JSON.stringify(userData));
-        console.log("From LocalStorage",this.storageService.get(LOCAL_STORAGE_KEYS.user))
 
-        this.router.navigate(['/'], { state: { 'emailCheck': false }});
-      
-      }else if(this.userType() === UserType.SELLER){
-        const registerObject: RegisterSellerRequest = {email: this.email, password: this.password, name: this.name};
+        localStorage.setItem(LOCAL_STORAGE_KEYS.user, JSON.stringify(userData));
+        console.log("From LocalStorage", this.storageService.get(LOCAL_STORAGE_KEYS.user))
+
+        this.router.navigate(['/'], { state: { 'emailCheck': false } });
+
+      } else if (this.userType() === UserType.SELLER) {
+        const registerObject: RegisterSellerRequest = { email: this.email, password: this.password, name: this.name };
         const res = await this.authService.registerSeller(registerObject);
 
         localStorage.setItem(LOCAL_STORAGE_KEYS.user, JSON.stringify(userData));
         console.log("From LocalStorage", this.storageService.get(LOCAL_STORAGE_KEYS.user))
 
-        this.router.navigate(['/'], { state: { 'emailCheck': false }});      
+        this.router.navigate(['/'], { state: { 'emailCheck': false } });
       }
 
     } catch (err: any) {

@@ -34,6 +34,7 @@ export class Login {
     }
 
     const userData: UserData = {
+      userId: 0,
       accessToken: '',
       userType: this.userType,
       email: this.email,
@@ -50,6 +51,7 @@ export class Login {
         const res = await this.authService.loginCustomer(loginObject);
         userData.accessToken = res.token;
         userData.userType = UserType.CUSTOMER
+        userData.userId = res.userId;
 
         localStorage.setItem(LOCAL_STORAGE_KEYS.user, JSON.stringify(userData));
         console.log("From LocalStorage", this.storageService.get(LOCAL_STORAGE_KEYS.user))
@@ -60,6 +62,7 @@ export class Login {
         const res = await this.authService.loginSeller(loginObject);
         userData.accessToken = res.token;
         userData.userType = UserType.SELLER
+        userData.userId = res.userId;
 
         localStorage.setItem(LOCAL_STORAGE_KEYS.user, JSON.stringify(userData));
         console.log("From LocalStorage", this.storageService.get(LOCAL_STORAGE_KEYS.user))
