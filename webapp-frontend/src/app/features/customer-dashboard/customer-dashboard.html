@@ -1,1 +1,60 @@
-<p>customer-dashboard works!</p>
+<div class="header-row">
+  <h2>Product List</h2>
+  <div class="header-actions">
+    <button class="order-button" (click)="placeOrder()" [disabled]="basket.length === 0">
+      🛒 Siparişi Ver
+    </button>
+    <button class="orders-button" (click)="showOrders()">
+      📋 Siparişlerim
+    </button>
+  </div>
+</div>
+
+
+@if (products.length === 0) {
+  <p>No products found.</p>
+} @else {
+  <div class="product-grid">
+    @for (product of products; track product.id) {
+        <div class="product-card">
+            <img [src]="product.photoUrl" [alt]="product.name" />
+
+            <div class="product-info">
+                <h3>{{ product.name }}</h3>
+                <p class="desc">{{ product.description }}</p>
+                <p><strong>Price:</strong> {{ product.price }} TL</p>
+                <p><strong>Stock:</strong> {{ product.stockQuantity }}</p>
+                <p><strong>Category:</strong> {{ product.category }}</p>
+                <p class="date">📅 {{ product.updatedAt | date: 'medium' }}</p>
+            </div>
+
+            <div class="product-actions">
+                @if (isInBasket(product)) {
+                <button class="remove-all-button" (click)="removeAllFromBasket(product)">
+                        ❌ Remove All
+                </button>
+                <div class="quantity-control">
+                    <button (click)="removeFromBasket(product)" 
+                            [disabled]="getQuantity(product) <= 0">
+                        ➖
+                    </button>
+                    <span>{{ getQuantity(product) }}</span>
+                    <button (click)="addToBasket(product)" 
+                            [disabled]="getRemainingStock(product) <= 0">
+                        ➕
+                    </button>
+                </div>
+                } @else {
+                <button 
+                    class="add-button"
+                    (click)="addToBasket(product)"
+                    [disabled]="product.stockQuantity <= 0"
+                >
+                    🛒 Add to Basket
+                </button>
+                }
+            </div>
+        </div>
+    }
+  </div>
+}
