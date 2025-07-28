@@ -2,6 +2,7 @@ package com.webapp.webapp_api.dto.order;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.webapp.webapp_api.dto.orderItem.OrderItemGetDTO;
@@ -19,5 +20,5 @@ public class OrderGetDTO {
     private LocalDateTime updatedAt;
     private LocalDateTime createdAt;
     private BigDecimal totalAmount;
-    private List<OrderItemGetDTO> orderItems;
+    private List<OrderItemGetDTO> orderItems = new ArrayList<>();;
 }
