@@ -60,7 +60,11 @@ public class OrderService {
         order.setCustomer(customer);
         order.setTotalAmount(orderPostDTO.getTotalAmount());
 
-        orderRepository.save(order);
+        order = orderRepository.save(order);
+        orderGetDTO.setCustomerId(order.getCustomer().getId());
+        orderGetDTO.setUpdatedAt(order.getUpdatedAt());
+        orderGetDTO.setCreatedAt(order.getCreatedAt());
+        orderGetDTO.setTotalAmount(order.getTotalAmount());
 
         for (OrderItemPostDTO orderItemPostDTO : orderPostDTO.getOrderItems()) {
 
@@ -77,7 +81,7 @@ public class OrderService {
             Optional<Seller> sellerOptional = sellerRepository.findById(orderItemPostDTO.getSellerId());
             Seller seller = sellerOptional.orElse(null);
             orderItem.setSeller(seller);
-
+            orderItem.setCategory(orderItemPostDTO.getCategory());
             orderItem.setStatus(OrderStatus.ORDERED);
             orderItem.setUnitPrice(orderItemPostDTO.getUnitPrice());
 
@@ -85,6 +89,8 @@ public class OrderService {
 
             OrderItemGetDTO orderItemGetDTO = new OrderItemGetDTO();
             orderItemGetDTO.setId(orderItem.getId());
+            orderItemGetDTO.setCategory(orderItem.getCategory());
+            orderItemGetDTO.setUpDateTime(orderItem.getCreatedAt());
             orderItemGetDTO.setOrderDate(orderItem.getCreatedAt());
             orderItemGetDTO.setOrderId(orderItem.getId());
             orderItemGetDTO.setProductId(orderItem.getProduct().getId());
