@@ -4,6 +4,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { Product } from '../../core/models/product.models';
 import { CommonModule } from '@angular/common';
 import { BasketItem } from '../../core/models/basketItem.model';
+import { OrderService } from '../../core/services/order/order';
+import { OrderPost } from '../../core/models/orderModels/order.post.model';
+import { OrderItemPost } from '../../core/models/orderItemModels/order_item.post.model';
+import { LOCAL_STORAGE_KEYS } from '../../core/constants/keys';
 
 @Component({
   selector: 'app-customer-dashboard',
@@ -14,6 +18,7 @@ import { BasketItem } from '../../core/models/basketItem.model';
 export class CustomerDashboard implements OnInit {
 
   productService = inject(ProductService);
+  orderService = inject(OrderService)
   dialog = inject(MatDialog);
   products: Product[] = [];
   basket: BasketItem[] = [];
@@ -71,10 +76,46 @@ export class CustomerDashboard implements OnInit {
     if (this.basket.length === 0) return;
     console.log("Sipariş verildi:", this.basket);
 
+    const orderItems: OrderItemPost[] = this.basket.map((item): OrderItemPost => ({
+      productId: item.product.id,
+      sellerId: item.product.sellerId,
+      quantity: item.quantity,
+      category: item.product.category,
+      unitPrice: item.product.price,
+    }));
 
+    const orderPost: OrderPost = {
+      customerId: this.getUserDate().userId,
+      totalAmount: 0,
+      orderItems: orderItems,
+    }
 
-    this.basket = [];
+    try {
+      const result = await this.orderService.createOrder(orderPost);
+      console.log(result);
+      this.basket = [];
+
+    } catch (error) {
+      console.log(error);
+    }
+
   }
 
   showOrders() { }
+
+
+  getUserDate() {
+    let parsedData: any = null;
+    const storedUserData = localStorage.getItem(LOCAL_STORAGE_KEYS.user);
+
+    try {
+      if (storedUserData) {
+        parsedData = JSON.parse(storedUserData);
+      }
+    } catch (err) {
+      console.warn('No JWT exists in the local storage.', err);
+    }
+
+    return parsedData;
+  }
 }
