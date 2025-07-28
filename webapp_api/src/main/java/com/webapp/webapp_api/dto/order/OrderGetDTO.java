@@ -20,5 +20,5 @@ public class OrderGetDTO {
     private LocalDateTime updatedAt;
     private LocalDateTime createdAt;
     private BigDecimal totalAmount;
-    private List<OrderItemGetDTO> orderItems = new ArrayList<>();;
+    private List<OrderItemGetDTO> orderItems = new ArrayList<>();
 }
