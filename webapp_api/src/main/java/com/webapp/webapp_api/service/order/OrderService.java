@@ -118,6 +118,7 @@ public class OrderService {
             // orderGetDTO.setOrderItems();
             orderGetDTO.setTotalAmount(order.getTotalAmount());
             orderGetDTO.setUpdatedAt(order.getUpdatedAt());
+            ordersGetDTOs.add(orderGetDTO);
         }
         return ordersGetDTOs;
     }
