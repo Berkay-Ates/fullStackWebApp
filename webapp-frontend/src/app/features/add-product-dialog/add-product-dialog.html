@@ -24,7 +24,7 @@
     <label for="category">Category</label>
     <select id="category" formControlName="category">
     <option value="">-- Choose the Category --</option>
-    <option *ngFor="let category of categories; index as i" [value]="i + 1">
+    <option *ngFor="let category of categories; index as i" [value]="i">
         {{ category.value }}
     </option>
     </select>

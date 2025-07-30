@@ -32,7 +32,7 @@ export class AddProductDialogComponent {
     description: [''],
     photoUrl: [''],
     price: [0, [Validators.required, Validators.min(0)]],
-    category: [null, [Validators.required, Validators.min(1)]],
+    category: [null, [Validators.required, Validators.min(0)]],
     stockQuantity: [0, [Validators.required, Validators.min(0)]],
   });
 
