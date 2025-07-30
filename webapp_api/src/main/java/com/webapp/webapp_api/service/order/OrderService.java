@@ -68,6 +68,7 @@ public class OrderService {
 
         for (OrderItemPostDTO orderItemPostDTO : orderPostDTO.getOrderItems()) {
 
+
             OrderItem orderItem = new OrderItem();
             orderItem.setOrder(order);
 
