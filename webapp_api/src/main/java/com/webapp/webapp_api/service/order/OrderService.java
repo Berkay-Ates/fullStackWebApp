@@ -68,13 +68,20 @@ public class OrderService {
 
         for (OrderItemPostDTO orderItemPostDTO : orderPostDTO.getOrderItems()) {
 
-
             OrderItem orderItem = new OrderItem();
             orderItem.setOrder(order);
 
             // Get product by id 
             Optional<Product> productOptional = productRepository.findById(orderItemPostDTO.getProductId());
             Product product = productOptional.orElse(null);
+
+            if (product.getStockQuantity() < orderItemPostDTO.getQuantity()) {
+                throw new RuntimeException("Not enough stock for product ID: " + product.getId());
+            }
+
+            product.setStockQuantity(product.getStockQuantity() - orderItemPostDTO.getQuantity());
+            productRepository.save(product);
+            
             orderItem.setProduct(product);
 
             orderItem.setQuantity(orderItemPostDTO.getQuantity());
@@ -106,17 +113,40 @@ public class OrderService {
         return orderGetDTO;
     }
     
-    public List<OrderGetDTO> getAllOrders(){
+    public List<OrderGetDTO> getAllOrders(Long id){
         List<OrderGetDTO> ordersGetDTOs = new ArrayList<OrderGetDTO>();
+         List<OrderItem> orderItems;
 
-        List<Order> orders = orderRepository.findAll();
+        Optional<Customer> customerOptional = customerRepository.findById(id);
+        Customer customer = customerOptional.orElse(null);
+
+        List<Order> orders = orderRepository.getByCustomer(customer);
 
         for (Order order : orders) {
+
+            List<OrderItemGetDTO> orderItemGetDTOs = new ArrayList<OrderItemGetDTO>();
+            orderItems = orderItemRepository.findByOrder(order);
+
+            for(OrderItem orderItem: orderItems){
+                OrderItemGetDTO orderItemGetDTO = new OrderItemGetDTO();
+                orderItemGetDTO.setCategory(orderItem.getCategory());
+                orderItemGetDTO.setOrderDate(orderItem.getCreatedAt());
+                orderItemGetDTO.setOrderId(orderItem.getId());
+                orderItemGetDTO.setProductId(orderItem.getProduct().getId());
+                orderItemGetDTO.setQuantity(orderItem.getQuantity());
+                orderItemGetDTO.setSellerId(orderItem.getSeller().getId());
+                orderItemGetDTO.setStatus(orderItem.getStatus());
+                orderItemGetDTO.setUnitPrice(orderItem.getUnitPrice());
+                orderItemGetDTO.setUpDateTime(orderItem.getUpdatedAt());
+                orderItemGetDTO.setProductName(orderItem.getProduct().getName());
+                orderItemGetDTOs.add(orderItemGetDTO);
+            }
+
             OrderGetDTO orderGetDTO = new OrderGetDTO();
             orderGetDTO.setCreatedAt(order.getCreatedAt());
             orderGetDTO.setCustomerId(order.getCustomer().getId());
             orderGetDTO.setId(order.getId());
-            // orderGetDTO.setOrderItems();
+            orderGetDTO.setOrderItems(orderItemGetDTOs);
             orderGetDTO.setTotalAmount(order.getTotalAmount());
             orderGetDTO.setUpdatedAt(order.getUpdatedAt());
             ordersGetDTOs.add(orderGetDTO);
