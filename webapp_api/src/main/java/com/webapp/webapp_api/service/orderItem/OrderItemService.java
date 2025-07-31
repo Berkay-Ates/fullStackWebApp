@@ -71,6 +71,31 @@ public class OrderItemService {
         return orderItemGetDTOs;
     }
 
+    public List<OrderItemGetDTO> getOrderItemsByOrder(Order order){
+        List<OrderItem> orderItems = orderItemRepository.findByOrder(order);
+        List<OrderItemGetDTO> orderItemGetDTOs = new ArrayList<>();
+
+        for(OrderItem orderItem : orderItems) {
+
+            OrderItemGetDTO orderItemGetDTO = new OrderItemGetDTO();
+            orderItemGetDTO.setId(orderItem.getId());
+            orderItemGetDTO.setOrderDate(orderItem.getCreatedAt());
+            orderItemGetDTO.setOrderId(orderItem.getOrder().getId());
+            orderItemGetDTO.setProductId(orderItem.getProduct().getId());
+            orderItemGetDTO.setQuantity(orderItem.getQuantity());   
+            orderItemGetDTO.setSellerId(orderItem.getSeller().getId());
+            orderItemGetDTO.setStatus(orderItem.getStatus());
+            orderItemGetDTO.setUnitPrice(orderItem.getUnitPrice());
+            orderItemGetDTO.setUpDateTime(orderItem.getUpdatedAt());
+            orderItemGetDTO.setCategory(orderItem.getCategory());
+            orderItemGetDTO.setProductName(orderItem.getProduct().getName());
+                
+            orderItemGetDTOs.add(orderItemGetDTO);
+            }
+            return orderItemGetDTOs;
+
+        }
+
     public List<OrderItemGetDTO> getAllOrderItems(){
         List<OrderItem> orders = orderItemRepository.findAll();
         List<OrderItemGetDTO> orderItemGetDTOs = new ArrayList<>();
