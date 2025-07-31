@@ -20,6 +20,7 @@ public class OrderItemGetDTO {
     private Long sellerId;
     private OrderStatus status;
     private Long quantity;
+    private String productName;
     private ProductCategory category;
     private BigDecimal unitPrice;
     private LocalDateTime orderDate;

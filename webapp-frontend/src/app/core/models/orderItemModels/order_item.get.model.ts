@@ -6,7 +6,8 @@ export interface OrderItemGet {
     orderId: bigint;
     productId: bigint;
     sellerId: bigint;
-    orderStatus: OrderStatus;
+    status: OrderStatus;
+    productName: string;
     quantity: number;
     category: ProductCategory;
     unitPrice: number;
