@@ -87,7 +87,7 @@ public class ProductService {
         return productDTO;
     }
 
-    @Transient
+    @Transactional
     public ProductDTO update(Long id, ProductDTO productDTO) {
         Product existingProduct = productRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Product not found"));
