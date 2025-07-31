@@ -1,0 +1,155 @@
+.title {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.order-item {
+  margin-bottom: 8px;
+  padding: 6px;
+  border-bottom: 1px solid #ccc;
+}
+
+
+.custom-dialog-container {
+  border-radius: 8px !important;  // köşeler az yuvarlak
+  padding: 10px;
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.order-container {
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 8px;
+}
+
+.order-header {
+  background: #f0f0f0;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  text-align: left;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &:hover {
+    background: #e0e0e0;
+  }
+}
+
+.order-header .expanded {
+  transform: rotate(180deg);
+  transition: transform 0.3s ease;
+}
+
+.order-items {
+  margin-left: 10px;
+  padding: 5px 10px;
+
+  ul {
+    list-style-type: disc;
+    margin-left: 20px;
+  }
+
+  li {
+    padding: 2px 0;
+  }
+}
+
+
+.order-header {
+  cursor: pointer;
+  background: #eee;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  text-align: left;
+  font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-items-list {
+  padding-left: 20px;
+  margin-top: 5px;
+}
+
+.order-item-detail {
+  padding: 5px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+
+.order-items-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+.order-item-card {
+  background: #f8f9fa;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-left: 4px solid #007bff;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: background-color 0.2s ease;
+}
+
+.order-item-card:hover {
+  background: #f1f3f5;
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  font-weight: bold;
+}
+
+.status {
+  padding: 0.3rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  color: #fff;
+}
+
+.status-ordered {
+  background-color: #ffc107;
+}
+
+.status-shipped {
+  background-color: #17a2b8;
+}
+
+.status-delivered {
+  background-color: #28a745;
+}
+
+.status-unknown {
+  background-color: #6c757d;
+}
+
+.item-details > div {
+  margin-bottom: 0.3rem;
+}
+
+.empty-orders {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px; /* ya da %100, container'a göre */
+  text-align: center;
+  font-size: 1.2rem;
+  color: #666;
+  background-color: #f9f9f9;
+  border-radius: 0.6rem;
+}

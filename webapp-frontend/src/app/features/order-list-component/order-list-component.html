@@ -1,0 +1,58 @@
+<h2 class="title">📦 Orders</h2>
+
+@if (orders.length > 0) {
+  <ul>
+    @for (order of orders; track order.id) {
+      <li class="order-item">
+        <button (click)="toggleOrder(order.id)" class="order-header">
+          <strong>Created At: {{ order.createdAt | date:'dd.MM.yyyy HH:mm' }}</strong> - 
+          Total Price: {{ order.totalAmount }} ₺ -
+          Updated At: {{ order.updatedAt | date:'dd.MM.yyyy HH:mm' }}
+          <span>{{ isExpanded(order.id) ? '▲' : '▼' }}</span>
+        </button>
+                
+        @if (isExpanded(order.id)) {
+          <ul class="order-items-list">
+            @for (item of order.orderItems; track item.id) {
+              <li class="order-item-card">
+                <div class="item-header">
+                  <span class="product-id">📦 {{ item.productName }}</span>
+
+                  @switch (item.status) {
+                    @case ('ORDERED') {
+                      <span class="status status-ordered">🛒 Order Placed</span>
+                    }
+                    @case ('PREPARING') {
+                      <span class="status status-shipped">📦 Preparing</span>
+                    }
+                    @case ('SHIPPED') {
+                      <span class="status status-shipped">📦 Shipped</span>
+                    }
+                    @case ('DELIVERED') {
+                      <span class="status status-delivered">✅ Delivered</span>
+                    }
+                    @default {
+                      <span class="status status-unknown">❓ Unknown</span>
+                    }
+                  }
+                </div>
+
+                <div class="item-details">
+                  <div><strong>Quantity:</strong> {{ item.quantity }}</div>
+                  <div><strong>Price:</strong> {{ item.unitPrice }} ₺</div>
+                  <div><strong>Category:</strong> {{ item.category }}</div>
+                  <div><strong>Order Date:</strong> {{ item.orderDate | date: 'dd.MM.yyyy HH:mm' }}</div>
+                </div>
+              </li>
+            }
+          </ul>
+        }
+
+      </li>
+    }
+  </ul>
+} @else {
+  <div class="empty-orders">
+    <p>🛒 There is no order.</p>
+  </div>
+}
