@@ -8,6 +8,10 @@ import { OrderService } from '../../core/services/order/order';
 import { OrderPost } from '../../core/models/orderModels/order.post.model';
 import { OrderItemPost } from '../../core/models/orderItemModels/order_item.post.model';
 import { LOCAL_STORAGE_KEYS } from '../../core/constants/keys';
+import { OrderListComponent } from '../order-list-component/order-list-component';
+import { OrderItemGet } from '../../core/models/orderItemModels/order_item.get.model';
+import { OrderStatus } from '../../static/enums/order_status';
+import { ProductCategory } from '../../static/enums/product_categories';
 
 @Component({
   selector: 'app-customer-dashboard',
@@ -84,9 +88,13 @@ export class CustomerDashboard implements OnInit {
       unitPrice: item.product.price,
     }));
 
+    const totalAmount = orderItems.reduce((sum, item) => {
+      return sum + item.unitPrice * item.quantity;
+    }, 0);
+
     const orderPost: OrderPost = {
       customerId: this.getUserDate().userId,
-      totalAmount: 0,
+      totalAmount: totalAmount,
       orderItems: orderItems,
     }
 
@@ -94,14 +102,31 @@ export class CustomerDashboard implements OnInit {
       const result = await this.orderService.createOrder(orderPost);
       console.log(result);
       this.basket = [];
-
+      this.products = await this.productService.getProducts();
     } catch (error) {
       console.log(error);
     }
 
   }
 
-  showOrders() { }
+  async showOrders() {
+
+    try {
+      const result = await this.orderService.getOrders(this.getUserDate().userId);
+      console.log(result);
+
+      const dialogRef = this.dialog.open(OrderListComponent, {
+        width: '90vw',
+        maxWidth: '1200px',
+        height: '80vh',
+        maxHeight: '800px',
+        data: result
+      });
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
 
   getUserDate() {
