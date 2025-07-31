@@ -20,15 +20,15 @@ export class OrderService {
   }
 
 
-  async getOrders(): Promise<OrderGet> {
-    const url = `${EndpointConstant.ORDER.GET_ORDERS}`;
-    const response = await this.http.get<OrderGet>(url);
+  async getOrders(id: number): Promise<Array<OrderGet>> {
+    const url = `${EndpointConstant.ORDER.GET_ORDERS}/${id}`;
+    const response = this.http.get<Array<OrderGet>>(url);
     return await firstValueFrom(response);
   }
 
 
   async getOrder(id: number): Promise<OrderGet> {
-    const url = `${EndpointConstant.ORDER.GET_ORDER}/id`;
+    const url = `${EndpointConstant.ORDER.GET_ORDER}/${id}`;
     const response = await this.http.get<OrderGet>(url);
     return await firstValueFrom(response);
   }
