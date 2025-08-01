@@ -6,7 +6,7 @@ export interface Customer {
     isVerified: boolean;
     money: string;
     name: string;
-    password?: string; 
+    password?: string;
     photoUrl: string;
     surname: string;
 }

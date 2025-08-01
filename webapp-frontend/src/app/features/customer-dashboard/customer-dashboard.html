@@ -1,5 +1,5 @@
 <div class="header-row">
-  <h2>Product List</h2>
+  <h2  (click)="navigateCustomerProfile()">👤 Customer Profile</h2>
   <div class="header-actions">
     <button class="order-button" (click)="placeOrder()" [disabled]="basket.length === 0">
       🛒 Place Order
@@ -12,7 +12,9 @@
 
 
 @if (products.length === 0) {
-  <p>No products found.</p>
+  <div class="no-product-message">
+    <p>No products found.</p>
+  </div>
 } @else {
   <div class="product-grid">
     @for (product of products; track product.id) {

@@ -31,7 +31,7 @@ public class SellerAuthController {
     @PostMapping("/register")
     public ResponseEntity<Map<String, String>> register(@RequestBody SellerRegisterDTO registerDTO) {       
         Seller registeredSeller = sellerService.register(registerDTO);
-        String jwtToken = jwtService.generateToken(registeredSeller.getEmail());       
+        String jwtToken = jwtService.generateToken(registeredSeller.getEmail(),"seller");       
         Map<String, String> response = Map.of("token", jwtToken);
         return ResponseEntity.ok(response);
     }
@@ -47,10 +47,11 @@ public class SellerAuthController {
             return ResponseEntity.status(403).body(Map.of("error", "The account is unverified"));
         }
 
-        String token = jwtService.generateToken(seller.getEmail());
+        String token = jwtService.generateToken(seller.getEmail(),"seller");
         return ResponseEntity.ok(Map.ofEntries(
             Map.entry("token", token),
-            Map.entry("userId", String.valueOf(seller.getId()))
+            Map.entry("userId", String.valueOf(seller.getId())),
+            Map.entry("money", String.valueOf(seller.getMoney()))
         ));
     }
 

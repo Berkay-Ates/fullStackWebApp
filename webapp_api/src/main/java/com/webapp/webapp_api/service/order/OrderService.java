@@ -1,7 +1,9 @@
 package com.webapp.webapp_api.service.order;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -57,6 +59,10 @@ public class OrderService {
             return orderGetDTO;
         }
 
+        if(customer.getMoney().compareTo(orderPostDTO.getTotalAmount()) < 0){
+            throw new Error("There is not enough money for this order.");
+        }
+
         order.setCustomer(customer);
         order.setTotalAmount(orderPostDTO.getTotalAmount());
 
@@ -109,9 +115,44 @@ public class OrderService {
             orderItemGetDTO.setUpDateTime(orderItemGetDTO.getUpDateTime());
             orderGetDTO.getOrderItems().add(orderItemGetDTO);
         }
-        
+
+        customer.setMoney(customer.getMoney().subtract(order.getTotalAmount()));
+        customerRepository.save(customer);
+
         return orderGetDTO;
     }
+
+    public List<OrderGetDTO> getAllOrdersBySeller(Long id){
+        List<OrderItem> sellerItems = orderItemRepository.findBySellerIdWithOrderAndProduct(id);
+        Map<Long, OrderGetDTO> groupedOrders = new LinkedHashMap<>();
+
+        for (OrderItem item : sellerItems) {
+            Order order = item.getOrder();
+            Long orderId = order.getId();
+
+            if (!groupedOrders.containsKey(orderId)) {
+                OrderGetDTO dto = new OrderGetDTO();
+                dto.setId(orderId);
+                dto.setCustomerId(order.getCustomer().getId());
+                dto.setCreatedAt(order.getCreatedAt());
+                dto.setTotalAmount(order.getTotalAmount());
+                dto.setOrderItems(new ArrayList<>());
+                groupedOrders.put(orderId, dto);
+            }
+
+            OrderItemGetDTO orderItemGetDTO = new OrderItemGetDTO();
+            orderItemGetDTO.setCategory(item.getCategory());
+            orderItemGetDTO.setOrderDate(item.getCreatedAt());
+            orderItemGetDTO.setUnitPrice(item.getUnitPrice());
+            orderItemGetDTO.setQuantity(item.getQuantity());
+            orderItemGetDTO.setProductName(item.getProduct().getName());
+            orderItemGetDTO.setStatus(item.getStatus());    
+
+            groupedOrders.get(orderId).getOrderItems().add(orderItemGetDTO);
+        }
+
+        return new ArrayList<>(groupedOrders.values());
+    }   
     
     public List<OrderGetDTO> getAllOrders(Long id){
         List<OrderGetDTO> ordersGetDTOs = new ArrayList<OrderGetDTO>();

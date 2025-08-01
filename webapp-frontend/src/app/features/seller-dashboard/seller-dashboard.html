@@ -1,23 +1,80 @@
+<div class="page-container">
 <div class="header-row">
-  <h2>Product list</h2>
-  <button class="add-button" (click)="goToAddProduct()">➕ Add Product</button>
+  <h2 (click)="navigateToSellerProfile()">👤 Seller Profile</h2>
+  
+  <div class="button-group">
+    <button class="add-button" (click)="goToAddProduct()">➕ Add Product</button>
+    <button class="add-button" (click)="showOrders()">📦 Orders</button>
+  </div>
 </div>
 
-@if (products.length === 0) {
-  <p>No product was found.</p>
-} @else {
-  <div class="product-grid">
-    @for (product of products; track product.id) {
-      <div class="product-card">
-        <img [src]="product.photoUrl" [alt]="product.name" />
-        <h3>{{ product.name }}</h3>
-        <p class="desc">{{ product.description }}</p>
-        <p><strong>Price:</strong> {{ product.price }} TL</p>
-        <p><strong>Stock:</strong> {{ product.stockQuantity }}</p>
-        <p>{{ product.category }}</p>
-        <p class="date">📅 {{ product.updatedAt | date: 'medium' }}</p>
-        <button class="delete-button" (click)="deleteProduct(product.id)">Delete</button>
-      </div>
-    }
-  </div>
-}
+  @if (products.length === 0) {
+    <p class="centered">No product was found.</p>
+  } @else {
+    <div class="product-grid">
+      @for (product of products; track product.id) {
+        <form class="product-card" (ngSubmit)="updateProduct(product)" #productForm="ngForm">
+          <img [src]="product.photoUrl" [alt]="product.name" />
+
+          <label>Name</label>
+          <input
+            type="text"
+            [(ngModel)]="product.name"
+            name="name-{{product.id}}"
+            required
+          />
+
+          <label>Description</label>
+          <textarea
+            [(ngModel)]="product.description"
+            name="desc-{{product.id}}"
+          ></textarea>
+
+          <label>Price (TL)</label>
+          <input
+            type="number"
+            [(ngModel)]="product.price"
+            name="price-{{product.id}}"
+            required
+            min="0"
+          />
+
+          <label>Stock Quantity</label>
+          <input
+            type="number"
+            [(ngModel)]="product.stockQuantity"
+            name="stock-{{product.id}}"
+            required
+            min="0"
+          />
+
+          <label>Category</label>
+          <select
+            [(ngModel)]="product.category"
+            name="category-{{product.id}}"
+            required
+          >
+            <option value="">-- Choose the Category --</option>
+            <option *ngFor="let category of categories" [value]="category.value">
+              {{ category.value }}
+            </option>
+          </select>
+
+          <p class="date">📅 {{ product.updatedAt | date: "medium" }}</p>
+
+          <div class="button-group">
+            <button type="submit" [disabled]="productForm.invalid">💾 Update</button>
+            <button
+              type="button"
+              class="delete-button"
+              (click)="deleteProduct(product.id)"
+            >
+              🗑️ Delete
+            </button>
+          </div>
+        </form>
+
+      }
+    </div>
+  }
+</div>

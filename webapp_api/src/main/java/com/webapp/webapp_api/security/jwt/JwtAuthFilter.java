@@ -1,7 +1,9 @@
 package com.webapp.webapp_api.security.jwt;
 
 import com.webapp.webapp_api.model.Customer;
+import com.webapp.webapp_api.model.Seller;
 import com.webapp.webapp_api.repository.customer.CustomerRepository;
+import com.webapp.webapp_api.repository.seller.SellerRepository;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -19,10 +21,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtTokenService jwtService;
     private final CustomerRepository customerRepository;
+    private final SellerRepository sellerRepository;
 
-    public JwtAuthFilter(JwtTokenService jwtService, CustomerRepository customerRepository) {
+    public JwtAuthFilter(JwtTokenService jwtService, CustomerRepository customerRepository,SellerRepository sellerRepository) {
         this.jwtService = jwtService;
         this.customerRepository = customerRepository;
+        this.sellerRepository = sellerRepository;
     }
 
     @Override
@@ -36,6 +40,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String userEmail;
+        final String userType;
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
@@ -44,20 +49,39 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         jwt = authHeader.substring(7);
         userEmail = jwtService.extractEmail(jwt);
+        userType = jwtService.extractUserType(jwt);
+
 
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            Customer customer = customerRepository.findByEmail(userEmail).orElse(null);
+            if (userType.equals("customer")) {
+                Customer customer = customerRepository.findByEmail(userEmail).orElse(null);
 
-            if (customer != null && jwtService.isTokenValid(jwt, customer.getEmail())) {
-                UsernamePasswordAuthenticationToken authToken =
-                        new UsernamePasswordAuthenticationToken(
-                                customer, null, null 
-                        );
-                authToken.setDetails(
-                        new WebAuthenticationDetailsSource().buildDetails(request)
-                );
+                if (customer != null && jwtService.isTokenValid(jwt, customer.getEmail())) {
+                    UsernamePasswordAuthenticationToken authToken =
+                            new UsernamePasswordAuthenticationToken(
+                                    customer, null, null 
+                            );
+                    authToken.setDetails(
+                            new WebAuthenticationDetailsSource().buildDetails(request)
+                    );
 
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
+
+            }else{
+                Seller seller = sellerRepository.findByEmail(userEmail).orElse(null);
+
+                if (seller != null && jwtService.isTokenValid(jwt, seller.getEmail())) {
+                    UsernamePasswordAuthenticationToken authToken =
+                            new UsernamePasswordAuthenticationToken(
+                                    seller, null, null 
+                            );
+                    authToken.setDetails(
+                            new WebAuthenticationDetailsSource().buildDetails(request)
+                    );
+
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
             }
         }
 

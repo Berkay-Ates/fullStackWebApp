@@ -9,9 +9,7 @@ import { OrderPost } from '../../core/models/orderModels/order.post.model';
 import { OrderItemPost } from '../../core/models/orderItemModels/order_item.post.model';
 import { LOCAL_STORAGE_KEYS } from '../../core/constants/keys';
 import { OrderListComponent } from '../order-list-component/order-list-component';
-import { OrderItemGet } from '../../core/models/orderItemModels/order_item.get.model';
-import { OrderStatus } from '../../static/enums/order_status';
-import { ProductCategory } from '../../static/enums/product_categories';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-customer-dashboard',
@@ -26,6 +24,9 @@ export class CustomerDashboard implements OnInit {
   dialog = inject(MatDialog);
   products: Product[] = [];
   basket: BasketItem[] = [];
+
+  constructor(private router: Router) {
+  }
 
   async ngOnInit(): Promise<void> {
     this.products = await this.productService.getProducts();
@@ -110,7 +111,6 @@ export class CustomerDashboard implements OnInit {
   }
 
   async showOrders() {
-
     try {
       const result = await this.orderService.getOrders(this.getUserDate().userId);
       console.log(result);
@@ -128,6 +128,12 @@ export class CustomerDashboard implements OnInit {
     }
   }
 
+  navigateCustomerProfile() {
+    console.log("deneme");
+
+    this.router.navigate(['/customerProfile']);
+
+  }
 
   getUserDate() {
     let parsedData: any = null;

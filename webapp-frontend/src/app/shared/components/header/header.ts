@@ -2,7 +2,7 @@ import { Component, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Router } from '@angular/router';
 
-import { LOCAL_STORAGE_KEYS } from '../../../core/constants/keys'; 
+import { LOCAL_STORAGE_KEYS } from '../../../core/constants/keys';
 import { LocalStorageService } from '../../../core/storage/localStorage/service';
 import { UserData } from '../../../core/storage/localStorage/model';
 
@@ -16,20 +16,16 @@ import { UserData } from '../../../core/storage/localStorage/model';
 export class Header {
   title = signal("Kafein Web App!")
   storageService: LocalStorageService<UserData> = new LocalStorageService();
-  
-  constructor(private router: Router) {}
+
+  constructor(private router: Router) { }
 
   isAuthenticatedRoute(): boolean {
-    // Bu listeye SignOut'un görüneceği pathleri ekle
-    const visibleOn = ['/sellerDashboard', '/customerDashboard'];
+    const visibleOn = ['/sellerDashboard', '/customerDashboard', '/customerProfile'];
     return visibleOn.includes(this.router.url);
   }
 
   signOut(): void {
     this.storageService.delete(LOCAL_STORAGE_KEYS.user);
     this.router.navigate(['/']);
-
-    console.log("DELETEDDD");
-    
   }
 }

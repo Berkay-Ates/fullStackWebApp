@@ -1,7 +1,9 @@
 package com.webapp.webapp_api.service.product;
 
 import java.beans.Transient;
-import java.util.List;import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -46,25 +48,45 @@ public class ProductService {
         return productDTO; 
     }
 
+    public List<ProductDTO> getAllBySeller(Long id) {
+        List<Product> products = productRepository.findBySellerId(id);
+        List<ProductDTO> dtos = new ArrayList<ProductDTO>();
+
+        for(Product p: products){
+            ProductDTO dto = new ProductDTO();
+            dto.setCategory(p.getCategory());
+            dto.setDescription(p.getDescription());
+            dto.setId(p.getId());
+            dto.setName(p.getName());
+            dto.setPhotoUrl(p.getPhotoUrl());
+            dto.setPrice(p.getPrice());
+            dto.setSellerId(p.getSeller().getId());
+            dto.setStockQuantity(p.getStockQuantity());
+            dto.setUpdatedAt(p.getUpdatedAt());
+            dtos.add(dto);
+        }
+        return dtos;
+    }
+
     public List<ProductDTO> getAll() {
         List<Product> products = productRepository.findAll();
+        List<ProductDTO> dtos = new ArrayList<ProductDTO>();
 
-        return products.stream()
-                    .map(p -> {
-                        ProductDTO dto = new ProductDTO();
-                        dto.setCategory(p.getCategory());
-                        dto.setDescription(p.getDescription());
-                        dto.setId(p.getId());
-                        dto.setName(p.getName());
-                        dto.setPhotoUrl(p.getPhotoUrl());
-                        dto.setPrice(p.getPrice());
-                        dto.setSellerId(p.getSeller().getId());
-                        dto.setStockQuantity(p.getStockQuantity());
-                        dto.setUpdatedAt(p.getUpdatedAt());
-                        
-                        return dto;
-                    })
-                    .collect(Collectors.toList());
+        for(Product p: products){
+            ProductDTO dto = new ProductDTO();
+            dto.setCategory(p.getCategory());
+            dto.setDescription(p.getDescription());
+            dto.setId(p.getId());
+            dto.setName(p.getName());
+            dto.setPhotoUrl(p.getPhotoUrl());
+            dto.setPrice(p.getPrice());
+            dto.setSellerId(p.getSeller().getId());
+            dto.setStockQuantity(p.getStockQuantity());
+            dto.setUpdatedAt(p.getUpdatedAt());
+            dtos.add(dto);
+        }
+
+        return dtos;
     }
 
 

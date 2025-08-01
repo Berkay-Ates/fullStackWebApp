@@ -1,6 +1,8 @@
 package com.webapp.webapp_api.security.config;
 
+import com.webapp.webapp_api.model.Seller;
 import com.webapp.webapp_api.repository.customer.CustomerRepository;
+import com.webapp.webapp_api.repository.seller.SellerRepository;
 import com.webapp.webapp_api.security.jwt.JwtAuthFilter;
 import com.webapp.webapp_api.security.jwt.JwtTokenService;
 
@@ -20,10 +22,12 @@ public class SecurityConfig {
 
     private final JwtTokenService jwtService;
     private final CustomerRepository customerRepository;
+    private final SellerRepository sellerRepository;
 
-    public SecurityConfig(JwtTokenService jwtService, CustomerRepository customerRepository) {
+    public SecurityConfig(JwtTokenService jwtService, CustomerRepository customerRepository, SellerRepository sellerRepository) {
         this.jwtService = jwtService;
         this.customerRepository = customerRepository;
+        this.sellerRepository = sellerRepository;
     }
 
     @Bean
@@ -37,7 +41,7 @@ public class SecurityConfig {
                                 "/auth/seller/**").permitAll()
                 .anyRequest().authenticated()
             )
-            .addFilterBefore(new JwtAuthFilter(jwtService, customerRepository),
+            .addFilterBefore(new JwtAuthFilter(jwtService, customerRepository,sellerRepository),
                             UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

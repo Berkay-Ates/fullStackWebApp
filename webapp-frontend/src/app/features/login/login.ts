@@ -25,7 +25,6 @@ export class Login {
 
   storageService: LocalStorageService<UserData> = new LocalStorageService();
 
-
   // TODO: Check is the user account is activated, if yes, then forward user to the related pages
   async login() {
     if (!this.email || !this.password) {
@@ -38,6 +37,7 @@ export class Login {
       accessToken: '',
       userType: this.userType,
       email: this.email,
+      money: 0,
     }
 
 
@@ -46,12 +46,14 @@ export class Login {
 
       if (this.userType === UserType.CUSTOMER) {
         console.log("Customer Login")
-        console.log(loginObject);
 
         const res = await this.authService.loginCustomer(loginObject);
         userData.accessToken = res.token;
         userData.userType = UserType.CUSTOMER
         userData.userId = res.userId;
+        userData.money = res.money;
+
+        console.log("user data", userData);
 
         localStorage.setItem(LOCAL_STORAGE_KEYS.user, JSON.stringify(userData));
         console.log("From LocalStorage", this.storageService.get(LOCAL_STORAGE_KEYS.user))
@@ -63,6 +65,9 @@ export class Login {
         userData.accessToken = res.token;
         userData.userType = UserType.SELLER
         userData.userId = res.userId;
+        userData.money = res.money;
+
+        console.log(userData);
 
         localStorage.setItem(LOCAL_STORAGE_KEYS.user, JSON.stringify(userData));
         console.log("From LocalStorage", this.storageService.get(LOCAL_STORAGE_KEYS.user))

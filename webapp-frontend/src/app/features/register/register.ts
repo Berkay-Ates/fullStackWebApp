@@ -45,6 +45,7 @@ export class Register {
       accessToken: '',
       userType: this.userType(),
       email: this.email,
+      money: 0
     }
 
     try {

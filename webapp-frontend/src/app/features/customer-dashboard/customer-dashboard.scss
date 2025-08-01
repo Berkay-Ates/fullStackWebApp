@@ -155,3 +155,16 @@ h2 {
   border-bottom: 1px solid #ccc;
   margin-bottom: 8px;
 }
+
+h2:hover {
+  color: #007bff;
+  cursor: pointer;
+}
+
+.no-product-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px; /* veya sayfanın tamamıysa 100vh */
+  text-align: center;
+}

@@ -7,4 +7,5 @@ export interface UserData {
     email: string;
     refreshToken?: string;
     expiresAt?: number;
+    money: number;
 };

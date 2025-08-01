@@ -11,7 +11,7 @@
 
 
 .custom-dialog-container {
-  border-radius: 8px !important;  // köşeler az yuvarlak
+  border-radius: 8px !important; 
   padding: 10px;
 }
 
@@ -146,10 +146,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 200px; /* ya da %100, container'a göre */
+  height: 200px; 
   text-align: center;
   font-size: 1.2rem;
   color: #666;
   background-color: #f9f9f9;
   border-radius: 0.6rem;
+}
+
+.no-order-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px; 
+  text-align: center;
 }

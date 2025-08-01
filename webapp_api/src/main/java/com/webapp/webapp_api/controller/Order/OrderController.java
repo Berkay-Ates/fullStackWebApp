@@ -32,9 +32,15 @@ public class OrderController {
         return ResponseEntity.ok(createdOrder);
     }
 
-    @GetMapping("getAll/{uId}")
+    @GetMapping("getAllByCustomer/{uId}")
     public ResponseEntity<List<OrderGetDTO>> getAllOrders(@PathVariable Long uId) {
         List<OrderGetDTO> orders = orderService.getAllOrders(uId);
+        return ResponseEntity.ok(orders);
+    }
+
+    @GetMapping("getAllBySeller/{uId}")
+    public ResponseEntity<List<OrderGetDTO>> getAllOrdersBySeller(@PathVariable Long uId) {
+        List<OrderGetDTO> orders = orderService.getAllOrdersBySeller(uId);
         return ResponseEntity.ok(orders);
     }
 

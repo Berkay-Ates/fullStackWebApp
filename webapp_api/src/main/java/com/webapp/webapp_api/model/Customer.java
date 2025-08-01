@@ -18,7 +18,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString(exclude = "password") // password'ü log'lamamak için
+@ToString(exclude = "password")
 public class Customer {
 
     @Id
