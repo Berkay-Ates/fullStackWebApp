@@ -13,8 +13,8 @@ public class MailService {
         this.mailSender = mailSender;
     }
 
-    public void sendVerificationEmail(String toEmail, String registered, String token) {
-        String link = String.format("http://localhost:8080/auth/%s/verify?token=%s", registered, token);
+    public void sendVerificationEmail(String toEmail, String registered, String token) {   
+        String link = String.format("http://localhost:8080/auth/%s/.p[?token=%s", registered, token);
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(toEmail);
