@@ -44,7 +44,10 @@ public class Seller {
     private String password;
 
     @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal money=BigDecimal.ZERO;;
+    private BigDecimal money=BigDecimal.ZERO;
+
+    @Column(nullable = true)
+    private String photoUrl;
 
     @CreationTimestamp
     @Column(updatable = false)
