@@ -21,7 +21,7 @@ export class OrderService {
 
 
   async getOrders(id: number): Promise<Array<OrderGet>> {
-    const url = `${EndpointConstant.ORDER.GET_ORDERS}/${id}`;
+    const url = `${EndpointConstant.ORDER.GET_ORDERS_BY_CUSTOMER}/${id}`;
     const response = this.http.get<Array<OrderGet>>(url);
     return await firstValueFrom(response);
   }
