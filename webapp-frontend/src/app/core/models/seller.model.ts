@@ -6,6 +6,6 @@ export interface Seller {
     isVerified: boolean;
     money: string;
     name: string;
-    password?: string; 
+    password?: string;
     photoUrl: string;
 }
