@@ -42,5 +42,12 @@ export const routes: Routes = [
         loadComponent: () => {
             return import('./features/customer-profile/customer-profile').then((m) => m.CustomerProfile);
         },
+    },
+    {
+        path: 'sellerProfile',
+        pathMatch: 'full',
+        loadComponent: () => {
+            return import('./features/seller-profile/seller-profile').then((m) => m.SellerProfile);
+        }
     }
 ];
