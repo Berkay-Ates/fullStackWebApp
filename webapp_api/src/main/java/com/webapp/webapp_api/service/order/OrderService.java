@@ -1,5 +1,6 @@
 package com.webapp.webapp_api.service.order;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -100,6 +101,8 @@ public class OrderService {
             orderItem.setUnitPrice(orderItemPostDTO.getUnitPrice());
 
             orderItem = orderItemRepository.save(orderItem);
+            seller.setMoney(seller.getMoney().add(orderItem.getUnitPrice().multiply(BigDecimal.valueOf(orderItem.getQuantity()))));
+            sellerRepository.save(seller);
 
             OrderItemGetDTO orderItemGetDTO = new OrderItemGetDTO();
             orderItemGetDTO.setId(orderItem.getId());
@@ -137,6 +140,7 @@ public class OrderService {
                 dto.setCreatedAt(order.getCreatedAt());
                 dto.setTotalAmount(order.getTotalAmount());
                 dto.setOrderItems(new ArrayList<>());
+                dto.setUpdatedAt(order.getUpdatedAt());
                 groupedOrders.put(orderId, dto);
             }
 
@@ -147,6 +151,7 @@ public class OrderService {
             orderItemGetDTO.setQuantity(item.getQuantity());
             orderItemGetDTO.setProductName(item.getProduct().getName());
             orderItemGetDTO.setStatus(item.getStatus());    
+            orderItemGetDTO.setUpDateTime(item.getUpdatedAt());
 
             groupedOrders.get(orderId).getOrderItems().add(orderItemGetDTO);
         }
