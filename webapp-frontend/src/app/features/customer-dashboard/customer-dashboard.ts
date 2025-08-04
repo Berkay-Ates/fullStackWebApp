@@ -129,10 +129,7 @@ export class CustomerDashboard implements OnInit {
   }
 
   navigateCustomerProfile() {
-    console.log("deneme");
-
     this.router.navigate(['/customerProfile']);
-
   }
 
   getUserDate() {

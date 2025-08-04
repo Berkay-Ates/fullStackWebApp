@@ -9,6 +9,7 @@ import { ProductCategory } from '../../static/enums/product_categories';
 import { OrderListComponent } from '../order-list-component/order-list-component';
 import { OrderService } from '../../core/services/order/order';
 import { LOCAL_STORAGE_KEYS } from '../../core/constants/keys';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-seller-dashboard',
@@ -24,6 +25,8 @@ export class SellerDashboard implements OnInit {
 
   dialog = inject(MatDialog);
   products: Product[] = [];
+
+  constructor(private router: Router) { }
 
   async ngOnInit(): Promise<void> {
     this.products = await this.productService.getProductsByCustomer(this.getUserData().userId);
@@ -62,7 +65,7 @@ export class SellerDashboard implements OnInit {
   }
 
   navigateToSellerProfile() {
-
+    this.router.navigate(['/sellerProfile']);
   }
 
   async showOrders() {
