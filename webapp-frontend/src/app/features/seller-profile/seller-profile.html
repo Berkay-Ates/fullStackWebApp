@@ -1,0 +1,39 @@
+<div class="profile-container">
+  @if (seller; as seller) {
+    <div class="profile-photo">
+        <img [src]="seller.photoUrl" alt="Profil Fotoğrafı" />
+    </div>
+
+    <form #profileForm="ngForm" (ngSubmit)="updateSeller()">
+
+        <div class="form-group">
+            <label for="name">Photo Url</label>
+            <input id="photoUrl" name="photoUrl" [(ngModel)]="seller.photoUrl" required />
+        </div>
+
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input id="name" name="name" [(ngModel)]="seller.name" required />
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" name="email" [(ngModel)]="seller.email" required type="email" readonly  />
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input id="password" name="password" [(ngModel)]="seller.password" type="password" />
+        </div>
+
+        <div class="form-group">
+            <label for="money">Balance (₺)</label>
+            <input id="money" name="money" [(ngModel)]="seller.money" type="number" step="0.01" />
+        </div>
+
+        <button type="submit" [disabled]="!profileForm.valid">Update Profile</button>
+    </form>
+  } @else {
+    <p>Loading...</p>
+  }
+</div>
