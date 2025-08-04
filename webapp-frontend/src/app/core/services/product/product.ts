@@ -31,8 +31,6 @@ export class ProductService {
   }
 
   async getProductsByCustomer(id: number): Promise<Array<Product>> {
-    console.log("-------------------00000000000000000000-----------------------");
-
     const url = `${EndpointConstant.PRODUCT.GET_PRODUCTS_BY_SELLER}/${id}`;
     try {
       const response = this.http.get<Array<Product>>(url);
