@@ -1,6 +1,5 @@
 package com.webapp.webapp_api.security.config;
 
-import com.webapp.webapp_api.model.Seller;
 import com.webapp.webapp_api.repository.customer.CustomerRepository;
 import com.webapp.webapp_api.repository.seller.SellerRepository;
 import com.webapp.webapp_api.security.jwt.JwtAuthFilter;
