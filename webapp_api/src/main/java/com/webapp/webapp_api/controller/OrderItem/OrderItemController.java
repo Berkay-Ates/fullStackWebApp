@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-
 @RestController
 @RequestMapping("/orderItem")
 public class OrderItemController {
@@ -22,7 +21,6 @@ public class OrderItemController {
     public OrderItemController(OrderItemService orderItemService){
         this.orderItemService = orderItemService;
     }
-
 
     @GetMapping("/getAll")
     public ResponseEntity<List<OrderItemGetDTO>> getAllOrderItems() {
