@@ -48,7 +48,7 @@ public class SellerAuthService {
         if (!passwordEncoder.matches(dto.getPassword(), seller.getPassword())) {
             throw new RuntimeException("Invalid email or password");
         }
-
+        
         return seller; 
     }
 
