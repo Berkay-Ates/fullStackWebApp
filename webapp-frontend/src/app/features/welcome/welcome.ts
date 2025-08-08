@@ -5,6 +5,7 @@ import { LOCAL_STORAGE_KEYS } from '../../core/constants/keys';
 import { UserType } from '../../static/enums/user_types';
 import { LocalStorageService } from '../../core/storage/localStorage/service';
 import { UserData } from '../../core/storage/localStorage/model';
+import { LocalStorageSingletonClass } from '../../core/singleton/localStorageObjects';
 
 @Component({
   selector: 'app-welcome',
@@ -22,31 +23,37 @@ export class Welcome {
     this.showEmailCheckBanner = !!nav?.extras.state?.['emailCheck'];
   }
 
-    ngOnInit(): void {
-      
-      const nav = this.router.getCurrentNavigation();
-      this.showEmailCheckBanner = !!nav?.extras.state?.['emailCheck'];
+  ngOnInit(): void {
 
-      const value = localStorage.getItem(LOCAL_STORAGE_KEYS.user)
-      const userInformarion = value == null ? "" : JSON.parse(value)      
+    const nav = this.router.getCurrentNavigation();
+    this.showEmailCheckBanner = !!nav?.extras.state?.['emailCheck'];
 
-      const userToken = userInformarion.accessToken
-      const userType = userInformarion.userType
+    const value = localStorage.getItem(LOCAL_STORAGE_KEYS.user)
+    const userInformarion = value == null ? "" : JSON.parse(value)
 
-      console.log(userInformarion);
+    const UserData = LocalStorageSingletonClass.Instance.getUserData();
+    console.log("----------------------------");
+    console.log(UserData);
+    console.log("----------------------------");
 
-      if (userInformarion != "" && userToken ) {
-        try {
-          if (userType === UserType.CUSTOMER) {
 
-            this.router.navigate(['/customerDashboard']);
-          } else if (userType=== UserType.SELLER) {
-            this.router.navigate(['/sellerDashboard']);
-          }
-        } catch (err) {
-          console.error('Invalid user data in localStorage', err);
+    const userToken = userInformarion.accessToken
+    const userType = userInformarion.userType
+
+    console.log(userInformarion);
+
+    if (userInformarion != "" && userToken) {
+      try {
+        if (userType === UserType.CUSTOMER) {
+
+          this.router.navigate(['/customerDashboard']);
+        } else if (userType === UserType.SELLER) {
+          this.router.navigate(['/sellerDashboard']);
         }
+      } catch (err) {
+        console.error('Invalid user data in localStorage', err);
       }
+    }
   }
 
 }

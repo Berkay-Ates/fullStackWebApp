@@ -10,6 +10,8 @@ import { OrderListComponent } from '../order-list-component/order-list-component
 import { OrderService } from '../../core/services/order/order';
 import { LOCAL_STORAGE_KEYS } from '../../core/constants/keys';
 import { Router } from '@angular/router';
+import { UserData } from '../../core/storage/localStorage/model';
+import { LocalStorageSingletonClass } from '../../core/singleton/localStorageObjects';
 
 @Component({
   selector: 'app-seller-dashboard',
@@ -22,6 +24,7 @@ import { Router } from '@angular/router';
 export class SellerDashboard implements OnInit {
   productService = inject(ProductService);
   orderService = inject(OrderService)
+  userData: UserData | undefined;
 
   dialog = inject(MatDialog);
   products: Product[] = [];
@@ -29,7 +32,10 @@ export class SellerDashboard implements OnInit {
   constructor(private router: Router) { }
 
   async ngOnInit(): Promise<void> {
-    this.products = await this.productService.getProductsByCustomer(this.getUserData().userId);
+    this.userData = LocalStorageSingletonClass.Instance.getUserData();
+
+    this.products = await this.productService.getProductsByCustomer(this.userData!.userId);
+
   }
 
   categories = Object.entries(ProductCategory).map(([key, value]) => ({
@@ -45,7 +51,7 @@ export class SellerDashboard implements OnInit {
     const result = await dialogRef.afterClosed().toPromise();
     console.log('Dialog kapandı, dönen veri:', result);
     if (result != null) {
-      this.products = await this.productService.getProductsByCustomer(this.getUserData().userId);
+      this.products = await this.productService.getProductsByCustomer(this.userData!.userId);
     }
   }
 
@@ -53,14 +59,14 @@ export class SellerDashboard implements OnInit {
     const res = await this.productService.deleteProduct(productId);
 
     if (res == null) {
-      this.products = await this.productService.getProductsByCustomer(this.getUserData().userId);
+      this.products = await this.productService.getProductsByCustomer(this.userData!.userId);
     }
   }
 
   async updateProduct(product: Product) {
 
     const res = await this.productService.updateProduct(product, product.id);
-    this.products = await this.productService.getProductsByCustomer(this.getUserData().userId);
+    this.products = await this.productService.getProductsByCustomer(this.userData!.userId);
 
   }
 
@@ -70,8 +76,7 @@ export class SellerDashboard implements OnInit {
 
   async showOrders() {
     try {
-      console.log(this.getUserData());
-      const result = await this.orderService.getOrdersBySeller(this.getUserData().userId);
+      const result = await this.orderService.getOrdersBySeller(this.userData!.userId);
       console.log(result);
 
       const dialogRef = this.dialog.open(OrderListComponent, {
@@ -87,19 +92,19 @@ export class SellerDashboard implements OnInit {
     }
   }
 
-  getUserData() {
-    let parsedData: any = null;
-    const storedUserData = localStorage.getItem(LOCAL_STORAGE_KEYS.user);
+  // getUserData() {
+  //   let parsedData: any = null;
+  //   const storedUserData = localStorage.getItem(LOCAL_STORAGE_KEYS.user);
 
-    try {
-      if (storedUserData) {
-        parsedData = JSON.parse(storedUserData);
-      }
-    } catch (err) {
-      console.warn('No JWT exists in the local storage.', err);
-    }
+  //   try {
+  //     if (storedUserData) {
+  //       parsedData = JSON.parse(storedUserData);
+  //     }
+  //   } catch (err) {
+  //     console.warn('No JWT exists in the local storage.', err);
+  //   }
 
-    return parsedData;
-  }
+  //   return parsedData;
+  // }
 
 }

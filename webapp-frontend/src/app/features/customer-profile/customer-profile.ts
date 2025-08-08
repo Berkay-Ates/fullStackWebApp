@@ -6,6 +6,8 @@ import { ProfileService } from '../../core/services/profile/profile';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { UserData } from '../../core/storage/localStorage/model';
+import { LocalStorageSingletonClass } from '../../core/singleton/localStorageObjects';
 
 @Component({
   selector: 'app-customer-profile',
@@ -17,17 +19,18 @@ export class CustomerProfile implements OnInit {
   profileService = inject(ProfileService)
 
   customer!: Customer;
+  userData!: UserData | undefined;
 
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.getUserData());
+    this.userData = LocalStorageSingletonClass.Instance.getUserData();
     this.getInformations();
   }
 
 
   async getInformations() {
-    const userId = this.getUserData().userId;
+    const userId = this.userData!.userId;
     const res = await this.profileService.getCustomerInformation(userId);
     this.customer = res;
   }

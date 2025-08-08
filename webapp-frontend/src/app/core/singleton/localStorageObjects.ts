@@ -22,17 +22,17 @@ export class LocalStorageSingletonClass {
         return this._singletonInstance || (this._singletonInstance = new this());
     }
 
-    public static getUserData(): UserData | undefined {
-        return this.Instance.userData;
+    public getUserData(): UserData | undefined {
+        return this.userData;
     }
 
-    public static setUserData(data: UserData): void {
+    public setUserData(data: UserData): void {
         localStorage.setItem(LOCAL_STORAGE_KEYS.user, JSON.stringify(data));
-        this.Instance.userData = data;
+        this.userData = data;
     }
 
-    public static clearUserData(): void {
+    public clearUserData(): void {
         localStorage.removeItem(LOCAL_STORAGE_KEYS.user);
-        this.Instance.userData = undefined;
+        this.userData = undefined;
     }
 }

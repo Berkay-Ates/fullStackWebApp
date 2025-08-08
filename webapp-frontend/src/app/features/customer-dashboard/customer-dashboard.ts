@@ -10,6 +10,8 @@ import { OrderItemPost } from '../../core/models/orderItemModels/order_item.post
 import { LOCAL_STORAGE_KEYS } from '../../core/constants/keys';
 import { OrderListComponent } from '../order-list-component/order-list-component';
 import { Router } from '@angular/router';
+import { LocalStorageSingletonClass } from '../../core/singleton/localStorageObjects';
+import { UserData } from '../../core/storage/localStorage/model';
 
 @Component({
   selector: 'app-customer-dashboard',
@@ -24,12 +26,20 @@ export class CustomerDashboard implements OnInit {
   dialog = inject(MatDialog);
   products: Product[] = [];
   basket: BasketItem[] = [];
+  userData!: UserData | undefined;
 
   constructor(private router: Router) {
   }
 
   async ngOnInit(): Promise<void> {
     this.products = await this.productService.getProducts();
+
+    this.userData = LocalStorageSingletonClass.Instance.getUserData();
+
+    if (this.userData === undefined) {
+      this.userData = this.getUserDate();
+    }
+
   }
 
   addToBasket(product: Product): void {
